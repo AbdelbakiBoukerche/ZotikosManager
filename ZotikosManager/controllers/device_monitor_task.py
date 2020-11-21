@@ -37,8 +37,8 @@ class DeviceMonitorTask:
             log_console(f"{self.__class__.__name__}: monitor:device terminate pending")
 
     def monitor(self, interval):
-        while True and not self.terminate:
 
+        while True and not self.terminate:
             device_ids = get_all_device_ids()
             log_console(f"Monitor: Beginning monitoring for {len(device_ids)} device")
 

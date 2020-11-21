@@ -30,5 +30,23 @@ DeviceStatus.query.delete()
 
 db.session.commit()
 
-if __name__ == '__main__':
-    app.run()
+
+from ZotikosManager.controllers.thread_manager import ThreadManager
+ThreadManager.start_device_threads(device_monitor_interval=60, compliance_monitor_interval=60,
+                                   config_monitor_interval=60)
+
+
+def shutdown():
+    print(f"\n\n\n-------> Entering shutdown sequence\n\n\n")
+
+    ThreadManager.initiate_terminate_all_threads()
+    ThreadManager.stop_device_threads()
+
+    print(f"\n\n\n-------> All Threads shut down, terminating...")
+
+
+import atexit
+atexit.register(shutdown)
+
+# if __name__ == '__main__':
+#     app.run()

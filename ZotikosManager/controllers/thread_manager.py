@@ -39,23 +39,24 @@ class ThreadManager:
 
     @staticmethod
     def start_device_threads(device_monitor_interval=60, compliance_monitor_interval=60, config_monitor_interval=60):
+
         ThreadManager.device_monitor_task = DeviceMonitorTask()
         ThreadManager.device_monitor_thread = threading.Thread(
-            target=ThreadManager.device_monitor_task,
+            target=ThreadManager.device_monitor_task.monitor,
             args=(device_monitor_interval,),
         )
         ThreadManager.device_monitor_thread.start()
 
         ThreadManager.compliance_monitor_task = ComplianceMonitorTask()
         ThreadManager.compliance_monitor_thread = threading.Thread(
-            target=ThreadManager.config_monitor_task,
+            target=ThreadManager.compliance_monitor_task.monitor,
             args=(compliance_monitor_interval,),
         )
         ThreadManager.compliance_monitor_thread.start()
 
         ThreadManager.config_monitor_task = ConfigurationMonitorTask()
         ThreadManager.config_monitor_thread = threading.Thread(
-            target=ThreadManager.config_monitor_task,
+            target=ThreadManager.config_monitor_task.monitor,
             args=(config_monitor_interval,),
         )
         ThreadManager.config_monitor_thread.start()
