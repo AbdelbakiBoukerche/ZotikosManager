@@ -18,9 +18,13 @@ from ZotikosManager.models.compliance import Compliance
 
 db.create_all()
 
-from ZotikosManager.models.apis import import_devices
+from ZotikosManager.models.apis import (
+    import_devices,
+    import_compliance
+)
 
 import_devices(filename="devices.yaml", filetype="yaml")
+import_compliance(filename="compliance.yaml")
 
 db.session.commit()
 
