@@ -1,9 +1,11 @@
 from ZotikosManager import app
-from ZotikosManager.controllers.utils import import_devices
+from ZotikosManager.models.apis import (
+    get_all_devices
+)
 
 
 @app.route('/devices')
 def devices():
     return {
-        "device": import_devices()
+        "device": get_all_devices()
     }

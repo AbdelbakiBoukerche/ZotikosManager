@@ -1,7 +1,6 @@
-import yaml
+from datetime import datetime
 
 
-def import_devices():
-    with open("ZotikosManager/data/devices.yaml") as devices_file:
-        devices = yaml.safe_load(devices_file.read())
-    return devices
+def log_console(output):
+    print(f"{str(datetime.now())[:-3]}: {output}")
+

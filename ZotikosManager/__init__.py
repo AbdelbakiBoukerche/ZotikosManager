@@ -11,6 +11,10 @@ db = SQLAlchemy(app=app)
 
 import ZotikosManager.views.ui_views
 from ZotikosManager.models.device import Device
+from ZotikosManager.models.device_status import DeviceStatus
+from ZotikosManager.models.device_facts import DeviceFacts
+from ZotikosManager.models.device_config import DeviceConfig
+from ZotikosManager.models.compliance import Compliance
 
 db.create_all()
 
