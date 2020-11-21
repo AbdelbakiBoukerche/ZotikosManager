@@ -26,6 +26,8 @@ from ZotikosManager.models.apis import (
 import_devices(filename="devices.yaml", filetype="yaml")
 import_compliance(filename="compliance.yaml")
 
+DeviceStatus.query.delete()
+
 db.session.commit()
 
 if __name__ == '__main__':

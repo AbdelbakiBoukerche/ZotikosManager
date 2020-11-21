@@ -153,7 +153,7 @@ def set_facts(device, facts):
         facts_instance.serial_number = device_facts["serial_number"]
         facts_instance.model = device_facts["model"]
         facts_instance.hostname = device_facts["hostname"]
-        facts_instance.device_name =device_facts["device_name"]
+        facts_instance.device_name = device_facts["device_name"]
 
     db.session.commit()
 
