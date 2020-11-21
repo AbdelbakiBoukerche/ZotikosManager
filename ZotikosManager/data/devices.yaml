@@ -1,9 +1,9 @@
 - id: 1
   ip_address: 192.168.122.100
-  name: CSR-latest-sandbox01
+  name: R1
   os: ios
   transport: napalm
-  hostname: ORAN-CORE01-A
+  hostname: oran-r1-a
   password: passwd
   ssh_port: 22
   username: baki

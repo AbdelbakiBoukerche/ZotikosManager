@@ -20,7 +20,7 @@ def get_napalm_device(device):
             hostname=device["hostname"],
             username=device["username"],
             password=device["password"],
-            optional_args={"port": device["ssh_port"]},
+            optional_args={"port": device["ssh_port"], "secret": device["password"]},
         )
     else:
         napalm_device = driver(

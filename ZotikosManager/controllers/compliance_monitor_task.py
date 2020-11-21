@@ -50,7 +50,8 @@ def check_config_compliance(device):
         log_console(f"Error retrieving compliance record for device: {device['name']}")
         return False
 
-    standard_filename = "Zotikos/data/" + standard.standard_config_file
+    standard_filename = "ZotikosManager/data/" + standard.standard_config_file
+    print(f"Standard file: {standard_filename}")
     result, diff = config_diff(device, standard_filename)
 
     if result != "Success":

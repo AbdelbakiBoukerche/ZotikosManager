@@ -1,4 +1,3 @@
-import napalm
 from ZotikosManager.controllers.utils import log_console
 from ZotikosManager.controllers.device.device_info import get_napalm_device
 

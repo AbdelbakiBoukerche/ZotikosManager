@@ -63,6 +63,7 @@ class DeviceMonitorTask:
                     continue
 
                 try:
+                    # ip_address = socket.gethostbyaddr(device["ip_address"])
                     ip_address = socket.gethostbyname(device["hostname"])
                 except (socket.error, socket.gaierror) as e:
                     info = f"Exception Socket error {repr(e)}, continuing to next device"
