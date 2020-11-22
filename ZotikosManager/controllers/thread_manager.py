@@ -3,7 +3,7 @@ import threading
 from ZotikosManager.controllers.device_monitor_task import DeviceMonitorTask
 from ZotikosManager.controllers.compliance_monitor_task import ComplianceMonitorTask
 from ZotikosManager.controllers.configuration_monitor_task import ConfigurationMonitorTask
-from ZotikosManager.controllers.utils import log_console
+from ZotikosManager.controllers.utils import CORE_LOGGER
 
 
 class ThreadManager:
@@ -16,7 +16,7 @@ class ThreadManager:
 
     @staticmethod
     def stop_device_threads():
-        log_console(f"Shutting down device monitoring threads")
+        CORE_LOGGER.info(f"Shutting down device monitoring threads")
 
         if ThreadManager.device_monitor_task and ThreadManager.device_monitor_thread:
             ThreadManager.device_monitor_task.set_terminate()

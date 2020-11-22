@@ -9,7 +9,7 @@ from ZotikosManager.models.device_status import DeviceStatus
 from ZotikosManager.models.device_config import DeviceConfig
 from ZotikosManager.models.compliance import Compliance
 from ZotikosManager.models.utils import get_model_as_dict
-from ZotikosManager.controllers.utils import log_console
+from ZotikosManager.controllers.utils import CORE_LOGGER
 
 
 def get_device(device_id=None, device_name=None):
@@ -64,10 +64,10 @@ def set_devices(devices):
 
     for device in devices:
         if device["id"] in ids:
-            log_console("Error: Duplicate device id")
+            CORE_LOGGER.warn(f"Warning: Duplicate device id")
             continue
         if device["name"] in names:
-            log_console("Error: Duplicate device name")
+            CORE_LOGGER.warn(f"Warning: Duplicate device name")
             continue
 
         ids.add(device["id"])

@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from time import sleep
 
 from ZotikosManager.controllers.device.device_status import get_device_status
-from ZotikosManager.controllers.utils import log_console
+from ZotikosManager.controllers.utils import CORE_LOGGER
 from ZotikosManager.models.apis import (
     get_all_device_ids,
     get_device,
@@ -34,20 +34,20 @@ class DeviceMonitorTask:
     def set_terminate(self):
         if not self.terminate:
             self.terminate = True
-            log_console(f"{self.__class__.__name__}: monitor:device terminate pending")
+            CORE_LOGGER.info(f"{self.__class__.__name__}: monitor: device terminate pending")
 
     def monitor(self, interval):
 
         while True and not self.terminate:
             device_ids = get_all_device_ids()
-            log_console(f"Monitor: Beginning monitoring for {len(device_ids)} device")
+            CORE_LOGGER.info(f"Device monitor: Beginning device monitoring for {len(device_ids)} devices")
 
             for device_id in device_ids:
                 result, device = get_device(device_id=device_id)
 
                 if result != "Success":
-                    log_console(f"Device monitor: Error retrieving device from database. id: {device_id},"
-                                "error: {device}")
+                    CORE_LOGGER.warn(f"Device monitor: Error retrieving device from database. "
+                                     f"id: {device_id}, error: {device}")
                     continue
 
                 if device["transport"] == "HTTP-REST":
@@ -63,17 +63,16 @@ class DeviceMonitorTask:
                     continue
 
                 try:
-                    # ip_address = socket.gethostbyaddr(device["ip_address"])
                     ip_address = socket.gethostbyname(device["hostname"])
                 except (socket.error, socket.gaierror) as e:
                     info = f"Exception Socket error {repr(e)}, continuing to next device"
-                    log_console(info)
+                    CORE_LOGGER.error(info)
                     ip_address = None
 
                 if self.terminate:
                     break
 
-                log_console(f"Monitor:device get environment {device['name']}")
+                CORE_LOGGER.info(f"Device monitor: get environment {device['name']}")
                 device_status = get_device_status(device)
 
                 device["ip_address"] = ip_address
@@ -91,4 +90,4 @@ class DeviceMonitorTask:
                 sleep(100)
                 if self.terminate:
                     break
-        log_console(f"Exiting monitor:device")
+        CORE_LOGGER.info("Device monitor: Exiting...")

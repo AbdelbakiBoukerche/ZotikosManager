@@ -35,18 +35,18 @@ from ZotikosManager.controllers.thread_manager import ThreadManager
 ThreadManager.start_device_threads(device_monitor_interval=30, compliance_monitor_interval=30,
                                    config_monitor_interval=30)
 
+from ZotikosManager.controllers.utils import CORE_LOGGER
+
 
 def shutdown():
-    print(f"\n\n\n-------> Entering shutdown sequence\n\n\n")
+    CORE_LOGGER.info(f"Entering shutdown sequence...\n\n")
 
     ThreadManager.initiate_terminate_all_threads()
     ThreadManager.stop_device_threads()
 
-    print(f"\n\n\n-------> All Threads shut down, terminating...")
+    CORE_LOGGER.info(f"All Threads shutdown, Terminating...\n\n")
 
 
 import atexit
 atexit.register(shutdown)
 
-# if __name__ == '__main__':
-#     app.run()

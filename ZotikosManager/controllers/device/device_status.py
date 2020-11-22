@@ -2,7 +2,7 @@ from datetime import datetime
 import time
 
 from ZotikosManager.controllers.device.device_info import get_device_info
-from ZotikosManager.controllers.utils import log_console
+from ZotikosManager.controllers.utils import CORE_LOGGER
 
 
 def calculate_cpu(cpu):
@@ -37,7 +37,7 @@ def get_device_status(device):
             response_time = time.time() - time_start
         except BaseException as e:
             info = f"Exception in monitoring device, get environment: {repr(e)}"
-            log_console(info)
+            CORE_LOGGER.error(info)
             result = "Failed"
 
     else:
@@ -47,11 +47,12 @@ def get_device_status(device):
             response_time = time.time() - time_start
         except BaseException as e:
             info = f"Exception in monitoring device, get facts: {repr(e)}"
-            log_console(info)
+            CORE_LOGGER.error(info)
+            # log_console(info)
             result = "Failed"
 
     if result != "Success":
-        log_console(f"Availability failed for device: {device['name']}")
+        CORE_LOGGER.warn(f"Availability failed for device: {device['name']}")
 
     else:
         device_status["availability"] = True

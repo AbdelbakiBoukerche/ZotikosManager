@@ -1,6 +1,6 @@
 import napalm
 from ZotikosManager.models.apis import get_facts, set_facts
-from ZotikosManager.controllers.utils import log_console
+from ZotikosManager.controllers.utils import CORE_LOGGER
 from ncclient import manager
 from xml.dom.minidom import parseString
 
@@ -64,7 +64,6 @@ def get_device_info_napalm(device, requested_info, get_live_info=False):
         if requested_info == "facts":
             facts = napalm_device.get_facts()
             set_facts(device, {"facts": facts})
-            # return "success", {"facts": napalm_device.get_facts()}
             return "Success", {"facts": facts}
         elif requested_info == "environment":
             return "Success", {"environment": napalm_device.get_environment()}
@@ -82,7 +81,7 @@ def get_device_info_napalm(device, requested_info, get_live_info=False):
         else:
             return "Failure", "Unknown requested info"
     except BaseException as e:
-        log_console(f"Exception in get device info napalm: {repr(e)}")
+        CORE_LOGGER.error(f"Exception in get_device_info_napalm: {repr(e)}")
         return "Failure", repr(e)
 
 

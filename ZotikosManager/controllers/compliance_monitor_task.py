@@ -3,7 +3,7 @@ from time import sleep
 
 from ZotikosManager.controllers.device.config_diff import config_diff
 from ZotikosManager.controllers.device.device_info import get_device_info
-from ZotikosManager.controllers.utils import log_console
+from ZotikosManager.controllers.utils import CORE_LOGGER
 from ZotikosManager.models.compliance import Compliance
 from ZotikosManager.models.apis import (
     get_all_device_ids,
@@ -28,17 +28,18 @@ def check_os_compliance(device):
     facts = None
     standard = Compliance.query.filter_by(**{"vendor": device["vendor"], "os": device["os"]}).one_or_none()
     if standard is None:
-        log_console(f"Error retrieving compliance record for this device: {device['name']}")
+        CORE_LOGGER.warn(f"Error retrieving compliance record for device: {device['name']}")
         return False
 
     try:
         result, facts = get_device_info(device, "facts", get_live_info=True)
     except BaseException as e:
-        log_console(f"Exception getting device info in compliance monitoring for device: {device['name']}: {repr(e)}")
+        CORE_LOGGER.error(f"Exception getting device info in compliance monitoring for device: "
+                          f"{device['name']}, {repr(e)}")
         result = "Failed"
 
     if result == "Failed" or not facts or 'facts' not in facts or "os_version" not in facts["facts"]:
-        log_console(f"Error retrieving version info for device: {device['name']}")
+        CORE_LOGGER.warn(f"Error retrieving version info for device: {device['name']}")
         return False
 
     return check_version(device, standard=standard.standard_version, actual=facts["facts"]["os_version"])
@@ -47,7 +48,7 @@ def check_os_compliance(device):
 def check_config_compliance(device):
     standard = Compliance.query.filter_by(**{"vendor": device["vendor"], "os": device["os"]}).one_or_none()
     if standard is None:
-        log_console(f"Error retrieving compliance record for device: {device['name']}")
+        CORE_LOGGER.warn(f"Error retrieving compliance record for device: {device['name']}")
         return False
 
     standard_filename = "ZotikosManager/data/" + standard.standard_config_file
@@ -70,13 +71,13 @@ class ComplianceMonitorTask:
     def set_terminate(self):
         if not self.terminate:
             self.terminate = True
-            log_console(f"{self.__class__.__name__}: monitor: compliance terminate pending")
+            CORE_LOGGER.info(f"{self.__class__.__name__}: monitor: compliance terminate pending")
 
     def monitor(self, interval):
 
         while True and not self.terminate:
             device_ids = get_all_device_ids()
-            log_console(f"Monitor: Beginning compliance monitoring for {len(device_ids)} devices")
+            CORE_LOGGER.info(f"Compliance monitor: Beginning compliance monitoring for {len(device_ids)} devices")
 
             for device_id in device_ids:
                 if self.terminate:
@@ -85,8 +86,8 @@ class ComplianceMonitorTask:
                 result, device = get_device(device_id=device_id)
 
                 if result != "Success":
-                    log_console(f"Compliance monitor: Error Retrieving device from database. id: {device_id},"
-                                "error: {device}")
+                    CORE_LOGGER.warn(f"Compliance monitor: Error retrieving device from database. "
+                                     f"id: {device_id}, error: {device}")
                     continue
 
                 if device["availability"]:
@@ -99,4 +100,4 @@ class ComplianceMonitorTask:
                 sleep(10)
                 if self.terminate:
                     break
-        log_console(f"...Exiting monitor:compliance")
+        CORE_LOGGER.info("Compliance monitor: Exiting...")
