@@ -32,8 +32,8 @@ db.session.commit()
 
 
 from ZotikosManager.controllers.thread_manager import ThreadManager
-ThreadManager.start_device_threads(device_monitor_interval=30, compliance_monitor_interval=30,
-                                   config_monitor_interval=30)
+ThreadManager.start_device_threads(device_monitor_interval=60, compliance_monitor_interval=60,
+                                   config_monitor_interval=60)
 
 from ZotikosManager.controllers.utils import CORE_LOGGER
 
