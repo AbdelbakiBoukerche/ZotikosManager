@@ -54,6 +54,7 @@ def get_device_status(device):
         CORE_LOGGER.warn(f"Availability failed for device: {device['name']}")
 
     else:
+        CORE_LOGGER.info(f"Availability succeeded for device: {device['name']}")
         device_status["availability"] = True
         if response_time:
             device_status["response_time"] = int(response_time * 1000)

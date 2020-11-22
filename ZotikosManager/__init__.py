@@ -16,12 +16,12 @@ if interval.isnumeric():
     device_monitor_interval = max(10, int(interval))
 else:
     device_monitor_interval = 60
-interval = os.environ.get("COMPLIANCE_MONITOR_INTERVAL", default='300')
+interval = os.environ.get("COMPLIANCE_MONITOR_INTERVAL", default='60')
 if interval.isnumeric():
     compliance_monitor_interval = max(10, int(interval))
 else:
     compliance_monitor_interval = 300
-interval = os.environ.get("CONFIGURATION_MONITOR_INTERVAL", default='300')
+interval = os.environ.get("CONFIGURATION_MONITOR_INTERVAL", default='60')
 if interval.isnumeric():
     configuration_monitor_interval = max(10, int(interval))
 
