@@ -156,6 +156,8 @@ dmypy.json
 .packages
 .pub-cache/
 .pub/
+android/
+ios/
 lib/generated_plugin_registrant.dart
 
 # Android related
