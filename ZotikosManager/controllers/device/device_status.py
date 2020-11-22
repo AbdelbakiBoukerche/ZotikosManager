@@ -48,7 +48,6 @@ def get_device_status(device):
         except BaseException as e:
             info = f"Exception in monitoring device, get facts: {repr(e)}"
             CORE_LOGGER.error(info)
-            # log_console(info)
             result = "Failed"
 
     if result != "Success":

@@ -9,6 +9,23 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgres:///zotikosmanager'
 db = SQLAlchemy(app=app)
 
+
+import os
+interval = os.environ.get("DEVICE_MONITOR_INTERVAL", default='60')
+if interval.isnumeric():
+    device_monitor_interval = max(10, int(interval))
+else:
+    device_monitor_interval = 60
+interval = os.environ.get("COMPLIANCE_MONITOR_INTERVAL", default='300')
+if interval.isnumeric():
+    compliance_monitor_interval = max(10, int(interval))
+else:
+    compliance_monitor_interval = 300
+interval = os.environ.get("CONFIGURATION_MONITOR_INTERVAL", default='300')
+if interval.isnumeric():
+    configuration_monitor_interval = max(10, int(interval))
+
+
 import ZotikosManager.views.ui_views
 from ZotikosManager.models.device import Device
 from ZotikosManager.models.device_status import DeviceStatus
@@ -20,7 +37,9 @@ db.create_all()
 
 from ZotikosManager.models.apis import (
     import_devices,
-    import_compliance
+    import_compliance,
+    get_all_devices,
+    set_facts,
 )
 
 import_devices(filename="devices.yaml", filetype="yaml")
@@ -32,8 +51,9 @@ db.session.commit()
 
 
 from ZotikosManager.controllers.thread_manager import ThreadManager
-ThreadManager.start_device_threads(device_monitor_interval=60, compliance_monitor_interval=60,
-                                   config_monitor_interval=60)
+ThreadManager.start_device_threads(device_monitor_interval=device_monitor_interval,
+                                   compliance_monitor_interval=compliance_monitor_interval,
+                                   config_monitor_interval=configuration_monitor_interval)
 
 from ZotikosManager.controllers.utils import CORE_LOGGER
 

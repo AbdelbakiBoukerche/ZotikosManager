@@ -7,5 +7,5 @@ from ZotikosManager.models.apis import (
 @app.route('/devices')
 def devices():
     return {
-        "device": get_all_devices()
+        "devices": get_all_devices()
     }
