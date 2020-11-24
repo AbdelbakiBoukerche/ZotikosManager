@@ -19,7 +19,6 @@ def calculate_memory(memory):
 
 
 def get_device_status(device):
-
     device_status = dict()
     device_status["availability"] = False
     device_status["response_time"] = None

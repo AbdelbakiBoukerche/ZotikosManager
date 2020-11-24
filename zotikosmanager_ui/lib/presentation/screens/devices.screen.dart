@@ -67,7 +67,7 @@ class _DevicesScreenState extends State<DevicesScreen> {
 
   Widget _buildDeviceListTile({@required Device device}) {
     return ListTile(
-      leading: device.availability
+      leading: device?.availability
           ? Icon(
               Icons.check,
               color: Colors.green,

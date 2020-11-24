@@ -64,6 +64,7 @@ class DeviceMonitorTask:
 
                 try:
                     ip_address = socket.gethostbyname(device["hostname"])
+                    # ip_address = socket.gethostbyaddr(device["ip_address"])
                 except (socket.error, socket.gaierror) as e:
                     info = f"Exception Socket error {repr(e)}, continuing to next device"
                     CORE_LOGGER.error(info)
@@ -72,7 +73,7 @@ class DeviceMonitorTask:
                 if self.terminate:
                     break
 
-                CORE_LOGGER.info(f"Device monitor: get environment {device['name']}")
+                CORE_LOGGER.info(f"Device monitor: get environment for {device['name']}")
                 device_status = get_device_status(device)
 
                 device["ip_address"] = ip_address
@@ -87,7 +88,7 @@ class DeviceMonitorTask:
                 record_device_status(device)
                 set_device(device)
             for _ in range(0, int(interval / 10)):
-                sleep(100)
+                sleep(10)
                 if self.terminate:
                     break
         CORE_LOGGER.info("Device monitor: Exiting...")
