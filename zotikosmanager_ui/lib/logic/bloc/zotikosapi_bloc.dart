@@ -16,8 +16,12 @@ class ZotikosApiBloc extends Bloc<ZotikosApiEvent, ZotikosApiState> {
     ZotikosApiEvent event,
   ) async* {
     if (event is FetchDevices) {
-      List<Device> devices = await ZotikosRepository.getDevicesList();
-      yield FetchDevicesCompleted(devices);
+      try {
+        List<Device> devices = await ZotikosRepository.getDevicesList();
+        yield FetchingDevicesCompleted(devices);
+      } catch (_) {
+        yield FetchingDevicesFailed();
+      }
     }
   }
 }

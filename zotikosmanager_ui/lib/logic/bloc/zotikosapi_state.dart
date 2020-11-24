@@ -9,9 +9,11 @@ abstract class ZotikosApiState extends Equatable {
 
 class ZotikosApiInitial extends ZotikosApiState {}
 
-class FetchDevicesCompleted extends ZotikosApiState {
+class FetchingDevicesFailed extends ZotikosApiState {}
+
+class FetchingDevicesCompleted extends ZotikosApiState {
   final List<Device> devices;
-  FetchDevicesCompleted(this.devices);
+  FetchingDevicesCompleted(this.devices);
 
   @override
   List<Object> get props => [devices];

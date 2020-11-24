@@ -70,7 +70,12 @@ class _DevicesScreenState extends State<DevicesScreen> {
                 child: CircularProgressIndicator(),
               );
             }
-            if (state is FetchDevicesCompleted) {
+            if (state is FetchingDevicesFailed) {
+              return Center(
+                child: Text("Fetching data from API failed"),
+              );
+            }
+            if (state is FetchingDevicesCompleted) {
               print(state.devices.length);
               return Text(state.devices.length.toString());
             }
