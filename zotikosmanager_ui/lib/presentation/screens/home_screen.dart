@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zotikosmanager_ui/presentation/screens/devices.screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const String route = '/';
+  static const String route = "/index";
   HomeScreen({Key key}) : super(key: key);
 
   @override
